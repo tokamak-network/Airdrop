@@ -1,2 +1,2 @@
-# airdrop
+# Airdrop
 Airdrop frontend
