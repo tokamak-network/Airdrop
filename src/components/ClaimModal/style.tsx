@@ -115,22 +115,6 @@ export const AirdropBar = styled.div`
   padding-left: 30px;
 `;
 
-export const ValuePerOption = styled.a`
-  margin-left: 13px;
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  line-height: 1;
-  font-weight: 500;
-  color: #3d495d;
-`;
-
-export const OptionLabel = styled.a`
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  line-height: 1;
-  color: #3d495d;
-`;
-
 export const ControlBar = styled.div`
   display: flex;
   gap: 12px;

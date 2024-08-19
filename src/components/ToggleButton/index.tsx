@@ -13,7 +13,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
   return (
     <Container>
       <Button $status={status} onClick={() => changeStatus(true)}>
-        Claim
+        Airdrop Claim
       </Button>
       <Button $status={!status} onClick={() => changeStatus(false)}>
         Distribute

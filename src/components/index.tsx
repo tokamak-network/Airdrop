@@ -10,3 +10,4 @@ export * from "./ClaimModal";
 export * from "./DistributeModal";
 export * from "./StyledSelect";
 export * from "./StyledInput";
+export * from "./StyledCheckbox";

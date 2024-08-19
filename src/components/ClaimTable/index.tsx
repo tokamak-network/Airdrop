@@ -21,32 +21,45 @@ import {
   ColSecond,
   ColThird,
   ColForth,
-  Dropdownmenu,
+  Radio,
 } from "./style";
 import { formatNumberToString } from "utils";
-// import { SourceDropdown } from "components/SourceDropdown";
+import { StyledCheckbox } from "components/StyledCheckbox";
+import { StyledSelect } from "components/StyledSelect";
+import { trackDeviceWidth } from "utils/getWidth";
 
 interface ClaimTableProps {
   confirmClaim: () => void;
 }
 
 const tokens = [
-  { address: 0, symbol: "DOCDOC", amount: 1000000 },
-  { address: 1, symbol: "DOCDOC", amount: 1000000 },
-  { address: 2, symbol: "DOCDOC", amount: 1000000 },
-  { address: 3, symbol: "DOCDOC", amount: 1000000 },
-  { address: 4, symbol: "DOCDOC", amount: 1000000 },
-  { address: 5, symbol: "DOCDOC", amount: 1000000 },
-  { address: 6, symbol: "DOCDOC", amount: 1000000 },
-  { address: 7, symbol: "DOCDOC", amount: 1000000 },
-  { address: 8, symbol: "DOCDOC", amount: 1000000 },
-  { address: 9, symbol: "DOCDOC", amount: 1000000 },
+  { address: "0", symbol: "DOCDOC", amount: 1000000 },
+  { address: "1", symbol: "DOCDOC", amount: 1000000 },
+  { address: "2", symbol: "DOCDOC", amount: 1000000 },
+  { address: "3", symbol: "DOCDOC", amount: 1000000 },
+  { address: "4", symbol: "DOCDOC", amount: 1000000 },
+  { address: "5", symbol: "DOCDOC", amount: 1000000 },
+  { address: "6", symbol: "DOCDOC", amount: 1000000 },
+  { address: "7", symbol: "DOCDOC", amount: 1000000 },
+  { address: "8", symbol: "DOCDOC", amount: 1000000 },
+  { address: "9", symbol: "DOCDOC", amount: 1000000 },
 ];
+
+const airdropOptions = ["Genesis Airdrop", "DAO Airdrop", "TON Staker"];
 
 export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
   const [source, setSource] = useState<string>("genesis");
-  const [claims, setClaims] = useState<number[]>([]);
+  const [claims, setClaims] = useState<string[]>([]);
   const [checkedAll, setCheckedAll] = useState<boolean>(false);
+  const [deviceWidth, setDeviceWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const stopTracking = trackDeviceWidth(setDeviceWidth);
+
+    return () => {
+      stopTracking();
+    };
+  }, []);
 
   useEffect(() => {
     if (tokens.length === claims.length) setCheckedAll(true);
@@ -75,9 +88,10 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
   const handleClaimsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     if (checked) {
-      setClaims([...claims, parseInt(value)]);
+      setClaims([...claims, value]);
+      console.log(value);
     } else {
-      setClaims(claims.filter((e) => e !== parseInt(value)));
+      setClaims(claims.filter((e) => e !== value));
     }
   };
 
@@ -92,43 +106,45 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
       <TableController>
         <OptionBar>
           <Label>From:</Label>
-          <Options>
-            <Option>
-              <input
-                type="radio"
-                name="source"
-                value="genesis"
-                checked={source === "genesis"}
-                onChange={handleSourceChange}
-              />{" "}
-              Genesis Airdrop
-            </Option>
-            <Option>
-              <input
-                type="radio"
-                name="source"
-                value="dao"
-                checked={source === "dao"}
-                onChange={handleSourceChange}
-              />{" "}
-              DAO Airdrop
-            </Option>
-            <Option>
-              <input
-                type="radio"
-                name="source"
-                value="ton"
-                checked={source === "ton"}
-                onChange={handleSourceChange}
-              />{" "}
-              TON Staker
-            </Option>
-          </Options>
-          <Dropdownmenu onChange={handleSourceChange}>
-            <option value="genesis">Genesis Airdrop</option>
-            <option value="dao">DAO Airdrop</option>
-            <option value="ton">TON Staker</option>
-          </Dropdownmenu>
+          {deviceWidth > 1100 ? (
+            <Options>
+              <Option>
+                <Radio
+                  type="radio"
+                  name="source"
+                  value="genesis"
+                  checked={source === "genesis"}
+                  onChange={handleSourceChange}
+                />{" "}
+                Genesis Airdrop
+              </Option>
+              <Option>
+                <Radio
+                  type="radio"
+                  name="source"
+                  value="dao"
+                  checked={source === "dao"}
+                  onChange={handleSourceChange}
+                />{" "}
+                DAO Airdrop
+              </Option>
+              <Option>
+                <Radio
+                  type="radio"
+                  name="source"
+                  value="ton"
+                  checked={source === "ton"}
+                  onChange={handleSourceChange}
+                />{" "}
+                TON Staker
+              </Option>
+            </Options>
+          ) : (
+            <StyledSelect
+              options={airdropOptions}
+              onChange={handleSourceChange}
+            />
+          )}
         </OptionBar>
         <ClaimSelectedButton onClick={handleClaimSelected}>
           Claim Selected
@@ -144,11 +160,7 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
         <Thead>
           <TableRow>
             <TableHead>
-              <input
-                type="checkbox"
-                onChange={handleCheckAll}
-                checked={checkedAll}
-              />
+              <StyledCheckbox onChange={handleCheckAll} checked={checkedAll} />
             </TableHead>
             <TableHead>Token Symbol</TableHead>
             <TableHead>Amount</TableHead>
@@ -160,8 +172,7 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
             return (
               <TableRow key={index}>
                 <TableCell>
-                  <input
-                    type="checkbox"
+                  <StyledCheckbox
                     key={index}
                     value={token.address}
                     name="claims"
@@ -170,7 +181,7 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
                   />
                 </TableCell>
                 <TableCell>{token.symbol}</TableCell>
-                <TableCell>{formatNumberToString(token.amount)}</TableCell>
+                <TableCell>{formatNumberToString(token.amount, 0)}</TableCell>
                 <TableCell>
                   <ClaimButton key={index}>Claim</ClaimButton>
                 </TableCell>

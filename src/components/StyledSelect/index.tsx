@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Container,
+  SelectContainer,
   Select,
   LabelBar,
   Label,
@@ -8,24 +9,29 @@ import {
   Info,
   Unit,
 } from "./style";
+import { SelectArrowActive, SelectArrowInactive } from "assets";
 
 interface StyledSelectProps {
-  label: string;
-  info: boolean;
+  label?: string;
+  info?: boolean;
   options: string[];
+  unit?: string;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
+
+const currentBalance = "0.00";
 
 export const StyledSelect: React.FC<StyledSelectProps> = ({
   label,
   info,
   options,
+  onChange,
+  unit,
 }) => {
-  const [unit, setUnit] = useState<string>("TON");
-  const currentBalance = "0.00";
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUnit(e.target.value);
-  };
   return (
     <Container>
       <LabelBar>
@@ -42,15 +48,23 @@ export const StyledSelect: React.FC<StyledSelectProps> = ({
           <></>
         )}
       </LabelBar>
-      <Select onChange={handleChange}>
-        {options.map((option, index) => {
-          return (
-            <Option value={option} key={index}>
-              {option}
-            </Option>
-          );
-        })}
-      </Select>
+      <SelectContainer>
+        <Select
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        >
+          {options.map((option, index) => {
+            return (
+              <Option value={option} key={index}>
+                {option}
+              </Option>
+            );
+          })}
+        </Select>
+        <SelectArrowActive isFocused={isFocused} />
+        <SelectArrowInactive isFocused={!isFocused} />
+      </SelectContainer>
     </Container>
   );
 };

@@ -20,6 +20,7 @@ export const FirstCard = styled.div`
   border-bottom-left-radius: 10px;
   background-color: #fff;
   @media only screen and (max-width: 1100px) {
+    height: 60px;
     justify-content: space-between;
     flex-direction: row;
     width: calc(100% - 40px);
@@ -37,6 +38,7 @@ export const Card = styled.div`
   padding: 20px;
   background-color: #fff;
   @media only screen and (max-width: 1100px) {
+    height: 60px;
     justify-content: space-between;
     flex-direction: row;
     width: calc(100% - 40px);
@@ -56,6 +58,7 @@ export const LastCard = styled.div`
   border-bottom-right-radius: 10px;
   background-color: #fff;
   @media only screen and (max-width: 1100px) {
+    height: 60px;
     justify-content: space-between;
     flex-direction: row;
     width: calc(100% - 40px);

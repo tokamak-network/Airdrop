@@ -4,13 +4,17 @@ import { Container, InputComp, LabelBarComp, LabelComp } from "./style";
 interface StyledSelectProps {
   label: string;
   active: boolean;
-  placeholder: string;
+  placeholder?: string;
+  value?: string;
+  readOnly?: boolean;
 }
 
 export const StyledInput: React.FC<StyledSelectProps> = ({
   label,
   active,
   placeholder,
+  value,
+  readOnly,
 }) => {
   const handleChange = () => {};
   return (
@@ -18,11 +22,24 @@ export const StyledInput: React.FC<StyledSelectProps> = ({
       <LabelBarComp>
         <LabelComp>{label}</LabelComp>
       </LabelBarComp>
-      <InputComp
-        onChange={handleChange}
-        disabled={!active}
-        placeholder={placeholder}
-      />
+      {readOnly ? (
+        <InputComp
+          type="text"
+          onChange={handleChange}
+          disabled={!active}
+          placeholder={placeholder}
+          value={value}
+          readOnly
+        />
+      ) : (
+        <InputComp
+          type="text"
+          onChange={handleChange}
+          disabled={!active}
+          placeholder={placeholder}
+          value={value}
+        />
+      )}
     </Container>
   );
 };

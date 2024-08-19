@@ -27,7 +27,7 @@ export const TokenLabel = styled.a`
     line-height: 1.5;
     letter-spacing: 0.4px;
     color: #353c48;
-    margin: 10px 0px;
+    margin: 1px 0px;
   }
 `;
 
@@ -48,9 +48,11 @@ export const OptionBar = styled.form`
     width: 100%;
     align-items: center;
   }
+  gap: 13px;
 `;
 
 export const Options = styled.div`
+  display: flex;
   @media only screen and (max-width: 1100px) {
     display: none;
   }
@@ -60,7 +62,6 @@ export const Label = styled.label`
   font-family: "Rajdhani", sans-serif;
   font-size: 16px;
   font-weight: bold;
-  text-align: left;
   color: #7e8993;
 `;
 
@@ -68,8 +69,11 @@ export const Option = styled.label`
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.14;
   color: #3d495d;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0px 12px;
 `;
 
 export const Table = styled.table`
@@ -106,6 +110,11 @@ export const TableHead = styled.th`
   letter-spacing: 0.3px;
   color: #3a495f;
   @media only screen and (max-width: 1100px) {
+    height: 42px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.27;
+    letter-spacing: 0.11px;
     border: solid 1px #eff1f6;
     background-color: #fff;
   }
@@ -119,7 +128,11 @@ export const TableCell = styled.td`
   letter-spacing: 0.46px;
   color: #2d3136;
   @media only screen and (max-width: 1100px) {
+    height: 42px;
     border: solid 1px #eff1f6;
+    font-size: 12px;
+    letter-spacing: 0.12px;
+    color: #3d495d;
   }
 `;
 
@@ -134,6 +147,10 @@ export const ClaimButton = styled.button`
   letter-spacing: 0.33px;
   color: #fff;
   outline: none !important;
+  @media only screen and (max-width: 1100px) {
+    width: 80px;
+    height: 26px;
+  }
 `;
 
 export const ClaimSelectedButton = styled.button`
@@ -204,4 +221,30 @@ export const Dropdownmenu = styled.select`
   @media only screen and (min-width: 1100px) {
     display: none;
   }
+`;
+
+export const Radio = styled.input`
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: solid 1px #e7ebf2;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: all 0.1s ease-in-out;
+  margin: 0px;
+  cursor: pointer;
+
+  &:checked {
+    border: 5px solid #2a72e5;
+  }
+`;
+
+export const Checkmark = styled.span`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background-color: #2a72e5;
 `;
