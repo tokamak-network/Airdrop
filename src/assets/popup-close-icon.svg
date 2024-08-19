@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+    <g transform="translate(-81 -81)">
+        <rect width="34" height="34" rx="17" transform="translate(81 81)" style="fill:rgba(62,73,92,.65)"/>
+        <path data-name="선 3" transform="rotate(135 33.653 67.246)" style="fill:none;stroke:#fff;stroke-linejoin:round;stroke-width:2px" d="M0 0h19.799"/>
+        <path data-name="선 4" transform="rotate(45 -64.347 155.347)" style="fill:none;stroke:#fff;stroke-linejoin:round;stroke-width:2px" d="M0 0h19.799"/>
+    </g>
+</svg>
