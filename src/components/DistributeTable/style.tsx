@@ -27,7 +27,7 @@ export const TokenLabel = styled.a`
     line-height: 1.5;
     letter-spacing: 0.4px;
     color: #353c48;
-    margin: 10px 0px;
+    margin: 0;
   }
 `;
 
@@ -44,9 +44,11 @@ export const TableController = styled.div`
 
 export const ScheduleBar = styled.form`
   display: flex;
+  align-items: center;
   gap: 6px;
   @media only screen and (max-width: 1100px) {
     display: grid;
+    gap: 0px;
   }
 `;
 
@@ -56,6 +58,12 @@ export const Label = styled.label`
   font-weight: bold;
   text-align: center;
   color: #7e8993;
+  @media only screen and (max-width: 1100px) {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.23;
+    letter-spacing: 0.33px;
+  }
 `;
 
 export const ScheduledTime = styled.a`
@@ -79,13 +87,16 @@ export const DistributeButton = styled.button`
   color: #2a72e5;
   outline: none !important;
   @media only screen and (max-width: 1100px) {
+    width: 80px;
+    height: 20px;
     display: none;
+    font-size: 12px;
   }
 `;
 
 export const MobileDistributeButton = styled.button`
-  width: 100px;
-  height: 32px;
+  width: 80px;
+  height: 26px;
   border-radius: 4px;
   border: solid 1px #2a72e5;
   background-color: #fff;
@@ -155,6 +166,7 @@ export const TableHead = styled.th`
   letter-spacing: 0.3px;
   color: #3a495f;
   @media only screen and (max-width: 1100px) {
+    height: 42px;
     border: solid 1px #eff1f6;
     background-color: #fff;
   }
@@ -162,12 +174,14 @@ export const TableHead = styled.th`
 
 export const TableCell = styled.td`
   height: 53px;
+  box-sizing: border-box;
   font-family: "Roboto", sans-serif;
   font-size: 13px;
   font-weight: normal;
   letter-spacing: 0.46px;
   color: #2d3136;
   @media only screen and (max-width: 1100px) {
+    height: 40px;
     border: solid 1px #eff1f6;
   }
 `;

@@ -28,21 +28,21 @@ export const PortfolioBar: React.FC<PortfolioProps> = ({ portfolio }) => {
       <Card>
         <Label>My Staked TON</Label>
         <Value>
-          {formatNumberToString(portfolio.stakedTON)}
+          {formatNumberToString(portfolio.stakedTON, 2)}
           <Unit>TON</Unit>
         </Value>
       </Card>
       <Card>
         <Label>My Staked TOS</Label>
         <Value>
-          {formatNumberToString(portfolio.stakedTOS)}
+          {formatNumberToString(portfolio.stakedTOS, 2)}
           <Unit>TOS</Unit>
         </Value>
       </Card>
       <LastCard>
         <Label>My sTOS</Label>
         <Value>
-          {formatNumberToString(portfolio.TOS)}
+          {formatNumberToString(portfolio.TOS, 2)}
           <Unit>sTOS</Unit>
         </Value>
       </LastCard>

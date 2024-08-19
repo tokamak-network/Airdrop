@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Screen,
   Layout,
@@ -24,6 +24,13 @@ interface ClaimModalProps {
 const date = "2022-04-07 00:00:00 UTC";
 
 export const DistributeModal: React.FC<ClaimModalProps> = ({ onClose }) => {
+  const [unit, setUnit] = useState<string>("TON");
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setUnit(e.target.value);
+  };
   const handleCancel = () => {
     onClose();
   };
@@ -49,7 +56,13 @@ export const DistributeModal: React.FC<ClaimModalProps> = ({ onClose }) => {
               info={false}
               options={contributor}
             />
-            <StyledSelect label="Token Address" info={true} options={tokens} />
+            <StyledSelect
+              label="Token Address"
+              info={true}
+              options={tokens}
+              onChange={handleChange}
+              unit={unit}
+            />
             <StyledInput
               label="Token Amount"
               active={true}
@@ -62,8 +75,9 @@ export const DistributeModal: React.FC<ClaimModalProps> = ({ onClose }) => {
             />
             <StyledInput
               label="Distribution Timestamp"
-              active={false}
-              placeholder={date}
+              active={true}
+              value={date}
+              readOnly={true}
             ></StyledInput>
           </FormComp>
           <Line />

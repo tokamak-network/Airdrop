@@ -33,12 +33,13 @@ export const Description = styled.div`
   color: #808992;
   margin: 10px 0px 60px 0px;
   @media only screen and (max-width: 1100px) {
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
     height: 60px;
-    margin: 0px;
+    margin-top: 16px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-bottom: 1px;

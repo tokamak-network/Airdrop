@@ -12,8 +12,6 @@ import {
   Unit,
   AirdropList,
   AirdropBar,
-  ValuePerOption,
-  OptionLabel,
   ControlBar,
   CancelButton,
   ClaimButton,
@@ -21,16 +19,16 @@ import {
   ModalCloseButton,
 } from "./style";
 import { ModalCloseIcon, PopupCloseIcon } from "assets";
-import { airdropOptions } from "consts";
+import { StyledCheckbox } from "components/StyledCheckbox";
 
 interface ClaimModalProps {
   onClose: () => void;
 }
 
 const airdrops = [
-  { address: "1", amount: 100 },
-  { address: "2", amount: 200 },
-  { address: "3", amount: 150 },
+  { address: "1", amount: 100, unit: "TOS" },
+  { address: "2", amount: 200, unit: "TON" },
+  { address: "3", amount: 150, unit: "WTON" },
 ];
 
 export const ClaimModal: React.FC<ClaimModalProps> = ({ onClose }) => {
@@ -82,24 +80,18 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ onClose }) => {
             <Unit>TOS</Unit>
           </ValueBar>
           <AirdropList>
-            {airdropOptions.map((option, index) => {
-              return (
-                <AirdropBar key={index}>
-                  <input
-                    type="checkbox"
-                    name="airdrops"
-                    value={airdrops[index].address}
-                    checked={checkedOptions.includes(airdrops[index].address)}
-                    onChange={handleChange}
-                  />
-                  <ValuePerOption>
-                    {airdrops[index].amount + " TOS"}
-                  </ValuePerOption>
-                  &nbsp;
-                  <OptionLabel>{"(" + option + ")"}</OptionLabel>
-                </AirdropBar>
-              );
-            })}
+            {airdrops.map((option, index) => (
+              <AirdropBar key={index}>
+                <StyledCheckbox
+                  key={index}
+                  value={option.address}
+                  name="airdrops"
+                  checked={checkedOptions.includes(option.address)}
+                  onChange={handleChange}
+                  label={option.amount + " " + option.unit}
+                />
+              </AirdropBar>
+            ))}
           </AirdropList>
           <Line />
           <ControlBar>

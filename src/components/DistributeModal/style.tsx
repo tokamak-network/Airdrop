@@ -88,7 +88,6 @@ export const CancelButton = styled.button`
 export const ClaimButton = styled.button`
   width: 150px;
   height: 38px;
-  padding: 9px 56px 10px;
   border-radius: 4px;
   background-color: #257eee;
   font-family: "Roboto", sans-serif;
@@ -117,6 +116,9 @@ export const ModalCloseButton = styled.button`
 `;
 
 export const FormComp = styled.div`
-  width: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: calc(100% - 60px);
   padding: 20px;
 `;

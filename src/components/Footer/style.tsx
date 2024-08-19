@@ -9,6 +9,7 @@ export const Container = styled.div`
   margin-top: 30px;
   @media only screen and (max-width: 1100px) {
     justify-content: center;
+    margin-top: 15px;
   }
 `;
 

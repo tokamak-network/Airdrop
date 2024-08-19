@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, StyledLogoIcon, StyledMobileLogoIcon } from "./style";
+import { Icon, StyledLogoIcon, StyledMobileLogoIcon, ArrowIcon } from "./style";
 import github from "./github-s-icon.svg";
 import insta from "./insta-s-icon.svg";
 import medium from "./medium-s-icon.svg";
@@ -12,6 +12,9 @@ import m_logo from "./tn-aridrop-m-bi.svg";
 import prev_arrow from "./pagenate-prev-arrow-icon-inactive.svg";
 import next_arrow from "./pagenate-next-arrow-icon-inactive.svg";
 import upper_arrow from "./upper-arrow-icon.svg";
+import tick from "./tick.svg";
+import select_arrow_active from "./select-1-arrow-active.svg";
+import select_arrow_inactive from "./select-1-arrow-inactive.svg";
 
 export const LogoIcon: React.FC = () => {
   return <StyledLogoIcon src={logo} alt="Tokamak Network Airdrop" />;
@@ -59,4 +62,22 @@ export const NextArrow: React.FC = () => {
 
 export const UpperArrow: React.FC = () => {
   return <img src={upper_arrow} alt="to_top" />;
+};
+
+export const Tick: React.FC = () => {
+  return <img src={tick} />;
+};
+
+interface ArrowIconProps {
+  isFocused: boolean;
+}
+
+export const SelectArrowActive: React.FC<ArrowIconProps> = ({ isFocused }) => {
+  return <ArrowIcon src={select_arrow_active} $isFocused={isFocused} />;
+};
+
+export const SelectArrowInactive: React.FC<ArrowIconProps> = ({
+  isFocused,
+}) => {
+  return <ArrowIcon src={select_arrow_inactive} $isFocused={isFocused} />;
 };

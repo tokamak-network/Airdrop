@@ -72,7 +72,9 @@ export const DistributeTable: React.FC<DistributeTableProps> = ({
                 return (
                   <TableRow key={index}>
                     <TableCell>{token.symbol}</TableCell>
-                    <TableCell>{formatNumberToString(token.amount)}</TableCell>
+                    <TableCell>
+                      {formatNumberToString(token.amount, 0)}
+                    </TableCell>
                   </TableRow>
                 );
               }
@@ -96,7 +98,9 @@ export const DistributeTable: React.FC<DistributeTableProps> = ({
                 return (
                   <TableRow key={index}>
                     <TableCell>{token.symbol}</TableCell>
-                    <TableCell>{formatNumberToString(token.amount)}</TableCell>
+                    <TableCell>
+                      {formatNumberToString(token.amount, 0)}
+                    </TableCell>
                   </TableRow>
                 );
               }
@@ -119,7 +123,7 @@ export const DistributeTable: React.FC<DistributeTableProps> = ({
               return (
                 <TableRow key={index}>
                   <TableCell>{token.symbol}</TableCell>
-                  <TableCell>{formatNumberToString(token.amount)}</TableCell>
+                  <TableCell>{formatNumberToString(token.amount, 0)}</TableCell>
                 </TableRow>
               );
             })}

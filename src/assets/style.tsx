@@ -15,3 +15,11 @@ export const StyledMobileLogoIcon = styled.img`
     display: none;
   }
 `;
+
+export const ArrowIcon = styled.img<{ $isFocused: boolean }>`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: ${(props) => (props.$isFocused ? "block" : "none")};
+`;
