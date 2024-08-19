@@ -15,7 +15,7 @@ import {
   TableHead,
   TableCell,
   ClaimButton,
-  ClaimAllButton,
+  ClaimSelectedButton,
   MobileClaimAllButton,
   ColFirst,
   ColSecond,
@@ -68,7 +68,7 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
     }
   };
 
-  const handleClaimAll = () => {
+  const handleClaimSelected = () => {
     confirmClaim();
   };
 
@@ -130,7 +130,9 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
             <option value="ton">TON Staker</option>
           </Dropdownmenu>
         </OptionBar>
-        <ClaimAllButton onClick={handleClaimAll}>Claim All</ClaimAllButton>
+        <ClaimSelectedButton onClick={handleClaimSelected}>
+          Claim Selected
+        </ClaimSelectedButton>
       </TableController>
       <Table>
         <colgroup>
