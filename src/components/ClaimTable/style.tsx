@@ -34,7 +34,7 @@ export const TokenLabel = styled.a`
 export const TableController = styled.div`
   display: flex;
   margin: 10px 0px 10px 30px;
-  width: 100%;
+  width: calc(100%-30px);
   justify-content: space-between;
   align-items: center;
   @media only screen and (max-width: 1100px) {
@@ -136,8 +136,8 @@ export const ClaimButton = styled.button`
   outline: none !important;
 `;
 
-export const ClaimAllButton = styled.button`
-  width: 100px;
+export const ClaimSelectedButton = styled.button`
+  width: 120px;
   height: 32px;
   border-radius: 4px;
   border: solid 1px #2a72e5;
