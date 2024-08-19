@@ -1,18 +1,12 @@
 import React from "react";
-import {
-  Container,
-  CheckboxWrapper,
-  HiddenCheckbox,
-  Checkbox,
-  Label,
-} from "./style";
+import { Container, CheckboxWrapper, HiddenCheckbox, Checkbox } from "./style";
 import { Tick } from "assets";
 
 interface CheckboxProps {
   checked: boolean;
   value?: string;
   name?: string;
-  label?: string;
+  children?: React.ReactNode;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -20,7 +14,7 @@ export const StyledCheckbox: React.FC<CheckboxProps> = ({
   checked,
   value,
   name,
-  label,
+  children,
   onChange,
 }) => (
   <Container>
@@ -35,7 +29,7 @@ export const StyledCheckbox: React.FC<CheckboxProps> = ({
         <Tick />
       </Checkbox>
     </CheckboxWrapper>
-    {label ? <Label>{label}</Label> : <></>}
+    {children ? children : <></>}
   </Container>
 );
 
