@@ -17,11 +17,9 @@ import {
   ClaimButton,
   CloseButton,
   ModalCloseButton,
-  Label,
 } from "./style";
 import { ModalCloseIcon, PopupCloseIcon } from "assets";
 import { StyledCheckbox } from "components/StyledCheckbox";
-import { airdropOptions } from "consts";
 
 interface ClaimModalProps {
   onClose: () => void;
@@ -90,12 +88,8 @@ export const ClaimModal: React.FC<ClaimModalProps> = ({ onClose }) => {
                   name="airdrops"
                   checked={checkedOptions.includes(option.address)}
                   onChange={handleChange}
-                >
-                  <Label>
-                    {option.amount + " " + option.unit}
-                    <a>{" (" + airdropOptions[index] + ")"}</a>
-                  </Label>
-                </StyledCheckbox>
+                  label={option.amount + " " + option.unit}
+                />
               </AirdropBar>
             ))}
           </AirdropList>

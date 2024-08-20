@@ -7,7 +7,6 @@ export const Screen = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(62, 73, 92, 0.65);
-  z-index: 2;
 `;
 
 export const Layout = styled.div`
@@ -164,18 +163,5 @@ export const ModalCloseButton = styled.button`
   outline: none !important;
   @media only screen and (min-width: 1100px) {
     display: none;
-  }
-`;
-
-export const Label = styled.a`
-  margin-left: 13px;
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  line-height: 1;
-  font-weight: 500;
-  color: #3d495d;
-  a {
-    font-weight: normal;
-    color: #808992;
   }
 `;
