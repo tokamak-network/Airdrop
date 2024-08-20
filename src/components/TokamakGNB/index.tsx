@@ -8,11 +8,12 @@ import {
   MenuItem,
   MenuControlButton,
 } from "./style";
-import { useLocation, useRoutes, RouteObject } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PrevArrow, NextArrow } from "assets";
 import { GNBInfo } from "consts";
 
 export const TokamakGNB: React.FC = () => {
+  const navigate = useNavigate();
   const locations = useLocation();
 
   const currentPathIndex = GNBInfo.findIndex(
@@ -24,13 +25,11 @@ export const TokamakGNB: React.FC = () => {
   );
 
   const onPrevHandler = () => {
-    setActive((prev) => Math.max(prev - 1, 0));
+    setActive((prev) => prev - 1);
   };
-
   const onNextHandler = () => {
-    setActive((prev) => Math.min(prev + 1, GNBInfo.length - 1));
+    setActive((prev) => prev + 1);
   };
-
   const onItemHandler = (index: number) => {
     setActive(index);
   };
@@ -48,21 +47,9 @@ export const TokamakGNB: React.FC = () => {
     return index > active ? offset : -offset;
   };
 
-  // Define routes using useRoutes
-  const routes: RouteObject[] = GNBInfo.map((info) => ({
-    path: info.link,
-    element: <div>{info.name}</div>, // Replace with actual component
-  }));
-
-  const element = useRoutes(routes);
-
   useEffect(() => {
-    // Update the active state based on location change
-    const index = GNBInfo.findIndex((info) => info.link === locations.pathname);
-    if (index !== -1) {
-      setActive(index);
-    }
-  }, [locations.pathname]);
+    navigate(GNBInfo[active].link);
+  }, [active]);
 
   return (
     <Container>
@@ -92,7 +79,6 @@ export const TokamakGNB: React.FC = () => {
           </MenuControlButton>
         </MenuControlNextButton>
       </MenuGroup>
-      {element} {/* Render the routes here */}
     </Container>
   );
 };
