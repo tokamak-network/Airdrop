@@ -1,1 +1,4 @@
-export const AIRDROP = "/airdrop";
+export const PATH = {
+  AIRDROP: "/airdrop",
+  // ...other paths
+};
