@@ -13,7 +13,7 @@ export const LayoutComponent: React.FC<LayoutProps> = ({ children }) => {
     <Layout>
       <TokamakGNB />
       <HeaderComponent />
-      <div>{children}</div>
+      {children}
       <FooterComponent />
     </Layout>
   );
