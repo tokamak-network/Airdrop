@@ -4,5 +4,5 @@ export const GNBInfo = [
   { name: "Bridge & Swap", link: "/" },
   { name: "Staking", link: "/" },
   { name: "DAO", link: "/" },
-  { name: "Airdrop", link: "airdrop" },
+  { name: "Airdrop", link: "/airdrop" },
 ];
