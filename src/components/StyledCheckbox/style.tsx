@@ -27,12 +27,3 @@ export const Checkbox = styled.div<{ $checked: boolean }>`
   border-radius: 4px;
   background: ${(props) => (props.$checked ? "#2a72e5" : "white")};
 `;
-
-export const Label = styled.a`
-  margin-left: 13px;
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  line-height: 1;
-  font-weight: 500;
-  color: #3d495d;
-`;
