@@ -1,1 +1,1 @@
-export const AIRDROP = "airdrop";
+export const AIRDROP = "/airdrop";

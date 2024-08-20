@@ -89,7 +89,6 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
     const { value, checked } = e.target;
     if (checked) {
       setClaims([...claims, value]);
-      console.log(value);
     } else {
       setClaims(claims.filter((e) => e !== value));
     }
