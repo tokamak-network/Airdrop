@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LayoutComponent } from "components";
+// import { LayoutComponent } from "components";
 import { PATH } from "consts";
 import { AirDropPage } from "pages";
 
