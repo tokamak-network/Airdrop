@@ -8,14 +8,21 @@ import {
   MenuItem,
   MenuControlButton,
 } from "./style";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PrevArrow, NextArrow } from "assets";
 import { GNBInfo } from "consts";
 
 export const TokamakGNB: React.FC = () => {
   const navigate = useNavigate();
+  const locations = useLocation();
 
-  const [active, setActive] = useState<number>(0);
+  const currentPathIndex = GNBInfo.findIndex(
+    (info) => info.link === locations.pathname
+  );
+
+  const [active, setActive] = useState<number>(
+    currentPathIndex > -1 ? currentPathIndex : 0
+  );
 
   const onPrevHandler = () => {
     setActive((prev) => prev - 1);
