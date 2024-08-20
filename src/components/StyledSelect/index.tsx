@@ -4,6 +4,7 @@ import {
   SelectContainer,
   Select,
   LabelBar,
+  Label,
   Option,
   Info,
   Unit,
