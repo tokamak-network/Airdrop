@@ -7,11 +7,11 @@ import { AirDropPage } from "pages";
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <LayoutComponent>
-        <Routes>
-          <Route path={PATH.AIRDROP} element={<AirDropPage />} />
-        </Routes>
-      </LayoutComponent>
+      {/* <LayoutComponent> */}
+      <Routes>
+        <Route path={PATH.AIRDROP} element={<AirDropPage />} />
+      </Routes>
+      {/* </LayoutComponent> */}
     </BrowserRouter>
   );
 };
