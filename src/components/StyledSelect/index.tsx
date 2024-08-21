@@ -13,7 +13,7 @@ import { SelectArrowActive, SelectArrowInactive } from "assets";
 
 interface StyledSelectProps {
   label?: string;
-  info?: boolean;
+  info?: string;
   options: string[];
   unit?: string;
   onChange?: (
@@ -40,7 +40,7 @@ export const StyledSelect: React.FC<StyledSelectProps> = ({
           <div>
             <Info>Balance</Info>&nbsp;
             <Unit>
-              {currentBalance + " "}
+              {info + " "}
               {unit}
             </Unit>
           </div>

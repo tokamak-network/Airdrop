@@ -6,5 +6,5 @@ export const Layout = styled.div`
   min-height: 100vh;
   height: auto;
   width: 100%;
-  background-color: #eee;
+  background-color: #fafbfc;
 `;

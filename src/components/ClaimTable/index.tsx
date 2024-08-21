@@ -23,35 +23,157 @@ import {
   ColForth,
   Radio,
 } from "./style";
-import { formatNumberToString } from "utils";
+import { fetchAirdropPayload, convertNumber } from "utils";
 import { StyledCheckbox } from "components/StyledCheckbox";
 import { StyledSelect } from "components/StyledSelect";
 import { trackDeviceWidth } from "utils/getWidth";
+import { DEPLOYED_ADDRESS, TokenDividendPoolProxy_ADDRESS } from "consts";
+import { getEthereumContract } from "hooks/useWallet";
+import * as TokenDividendPoolABI from "services/abis/TokenDividendProxyPool.json";
+import * as ERC20 from "services/abis/ERC20.json";
+import { getGlobalState } from "store";
+import { getClaimList, setClaimAirdrop } from "utils";
+import { ClaimModal } from "components";
 
-interface ClaimTableProps {
-  confirmClaim: () => void;
-}
+const airdropOptions = ["Genesis Airdrop", "sTos Holder", "TON Staker"];
 
-const tokens = [
-  { address: "0", symbol: "DOCDOC", amount: 1000000 },
-  { address: "1", symbol: "DOCDOC", amount: 1000000 },
-  { address: "2", symbol: "DOCDOC", amount: 1000000 },
-  { address: "3", symbol: "DOCDOC", amount: 1000000 },
-  { address: "4", symbol: "DOCDOC", amount: 1000000 },
-  { address: "5", symbol: "DOCDOC", amount: 1000000 },
-  { address: "6", symbol: "DOCDOC", amount: 1000000 },
-  { address: "7", symbol: "DOCDOC", amount: 1000000 },
-  { address: "8", symbol: "DOCDOC", amount: 1000000 },
-  { address: "9", symbol: "DOCDOC", amount: 1000000 },
-];
-
-const airdropOptions = ["Genesis Airdrop", "DAO Airdrop", "TON Staker"];
-
-export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
-  const [source, setSource] = useState<string>("genesis");
+export const ClaimTable: React.FC = () => {
+  const account = getGlobalState("connectedAccount");
+  const [source, setSource] = useState<string>("sTos");
+  const [claimShow, setClaimShow] = useState<boolean>(true);
+  const [claimList, setClaimList] = useState<any[]>([]);
   const [claims, setClaims] = useState<string[]>([]);
-  const [checkedAll, setCheckedAll] = useState<boolean>(false);
+  const [checkSelected, setCheckCSelected] = useState<boolean>(false);
   const [deviceWidth, setDeviceWidth] = useState<number>(window.innerWidth);
+  const [loadingData, setLoadingData] = useState<boolean>(true);
+  const [airdropData, setAirdropData] = useState<any[]>([]);
+  const [tonStakerAirdropTokens, setTonStakerAirdropTokens] = useState<any[]>(
+    []
+  );
+  const [daoAirdropTokens, setDaoAirdropTokens] = useState<any[]>([]);
+  const [genesisAirdropBalance, setGenesisAirdropBalance] = useState({});
+  const [sTosHolderTokens, setSTOSHolderTokens] = useState<any[]>([]);
+
+  useEffect(() => {
+    const getClaimableAirdropTonAmounts = async () => {
+      const TOKEN_DIVIDEND_POOL_PROXY_CONTRACT = await getEthereumContract(
+        TokenDividendPoolProxy_ADDRESS,
+        TokenDividendPoolABI.abi
+      );
+      const claimList = await getClaimList();
+      const tonRes =
+        await TOKEN_DIVIDEND_POOL_PROXY_CONTRACT?.getAvailableClaims(account);
+
+      if (tonRes === undefined && claimList === undefined) {
+        return;
+      }
+
+      const { claimableAmounts, claimableTokens } = tonRes;
+
+      let claimableArr: any[] = [];
+      let tempTonStakerArr: any[] = [];
+      let tempDaoAirdropArr: any[] = [];
+
+      if (claimableAmounts.length > 0 && claimableTokens) {
+        await Promise.all(
+          claimableTokens.map(async (tokenAddress: string, idx: number) => {
+            const ERC20_CONTRACT = await getEthereumContract(
+              tokenAddress,
+              ERC20.abi
+            );
+            let tokenSymbol = await ERC20_CONTRACT?.symbol();
+            claimableArr.push({
+              address: tokenAddress,
+              amount: claimableAmounts[idx],
+              tokenSymbol: tokenSymbol,
+              id: idx,
+              tonStaker: true,
+            });
+          })
+        );
+      }
+      if (claimList) {
+        if (claimList?.length > 0) {
+          await Promise.all(
+            claimList?.map((token: any, idx: number) => {
+              claimableArr.push({
+                address: token?.tokenAddress,
+                amount: token?.claimAmount,
+                tokenSymbol: token?.tokenName,
+                id: idx,
+                tosStaker: true,
+              });
+            })
+          );
+        }
+      }
+      if (claimableArr.length > 0) {
+        // Push to Ton Staker arr
+        await Promise.all(
+          claimableArr.map((token: any) => {
+            if (token.tonStaker === true && token.amount !== "0.00") {
+              tempTonStakerArr.push(token);
+            }
+          })
+        );
+
+        // Push to DAO airdrop arr
+        await Promise.all(
+          claimableArr.map((token: any) => {
+            if (token.tosStaker === true && token.amount !== "0.00") {
+              tempDaoAirdropArr.push(token);
+            }
+          })
+        );
+      }
+
+      const sortedTonStakerArr = tempTonStakerArr.sort((a, b) => a.id - b.id);
+      const sortedDaoAirdropArr = tempDaoAirdropArr.sort((a, b) => a.id - b.id);
+
+      setTonStakerAirdropTokens(
+        sortedTonStakerArr.filter((tonStakerData) => {
+          if (convertNumber({ amount: tonStakerData.amount }) !== "0.00") {
+            return tonStakerData;
+          }
+        })
+      );
+      setDaoAirdropTokens(
+        sortedDaoAirdropArr.filter((daoAirdropData) => {
+          if (daoAirdropData.amount !== "0.00") {
+            return daoAirdropData;
+          }
+        })
+      );
+
+      let filteredAirdropData = claimableArr.filter(
+        (data) => data.amount !== "0.00"
+      );
+      const sortedArr = filteredAirdropData.sort((a, b) => a.id - b.id);
+      setLoadingData(false);
+      setAirdropData(sortedArr);
+    };
+    if (account) getClaimableAirdropTonAmounts();
+  }, [account, source]);
+
+  useEffect(() => {
+    async function callAirDropGenesisData() {
+      if (account === undefined || account === null) {
+        return;
+      }
+      const res = await fetchAirdropPayload(account);
+      if (res === undefined) {
+        return;
+      }
+      const { roundInfo, address, claimedAmount, unclaimedAmount } = res;
+      if (roundInfo !== undefined && claimedAmount !== undefined) {
+        setGenesisAirdropBalance({ address: address, amount: unclaimedAmount });
+      }
+    }
+    if (account) {
+      callAirDropGenesisData();
+    }
+    /*eslint-disable*/
+  }, [account, source]);
 
   useEffect(() => {
     const stopTracking = trackDeviceWidth(setDeviceWidth);
@@ -62,9 +184,15 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
   }, []);
 
   useEffect(() => {
-    if (tokens.length === claims.length) setCheckedAll(true);
-    else setCheckedAll(false);
+    if (claimList.length === claims.length) setCheckCSelected(true);
+    else setCheckCSelected(false);
   }, [claims]);
+
+  useEffect(() => {
+    if (source === "genesis") setClaimList([genesisAirdropBalance]);
+    else if (source === "sTos") setClaimList(daoAirdropTokens);
+    else setClaimList(tonStakerAirdropTokens);
+  }, [source]);
 
   const handleSourceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -72,17 +200,17 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
     setSource(e.target.value);
   };
 
-  const handleCheckAll = () => {
-    setCheckedAll(!checkedAll);
-    if (!checkedAll) {
-      setClaims(tokens.map((token) => token.address));
+  const handleCheckSelected = () => {
+    setCheckCSelected(!checkSelected);
+    if (!checkSelected) {
+      setClaims(claimList.map((token) => token.address));
     } else {
       setClaims([]);
     }
   };
 
   const handleClaimSelected = () => {
-    confirmClaim();
+    setClaimShow(false);
   };
 
   const handleClaimsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,11 +222,16 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
     }
   };
 
+  const handleClaim = (address: string) => {
+    setClaimAirdrop(address);
+  };
+
   return (
     <Container>
+      {claimShow || <ClaimModal onClose={() => setClaimShow(true)} />}
       <TokenList>
         <TokenLabel>Token List</TokenLabel>
-        <MobileClaimAllButton onClick={confirmClaim}>
+        <MobileClaimAllButton onClick={() => setClaimShow(false)}>
           Claim All
         </MobileClaimAllButton>
       </TokenList>
@@ -121,11 +254,11 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
                 <Radio
                   type="radio"
                   name="source"
-                  value="dao"
-                  checked={source === "dao"}
+                  value="sTos"
+                  checked={source === "sTos"}
                   onChange={handleSourceChange}
                 />{" "}
-                DAO Airdrop
+                sTos Holder
               </Option>
               <Option>
                 <Radio
@@ -159,7 +292,10 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
         <Thead>
           <TableRow>
             <TableHead>
-              <StyledCheckbox onChange={handleCheckAll} checked={checkedAll} />
+              <StyledCheckbox
+                onChange={handleCheckSelected}
+                checked={checkSelected}
+              />
             </TableHead>
             <TableHead>Token Symbol</TableHead>
             <TableHead>Amount</TableHead>
@@ -167,26 +303,34 @@ export const ClaimTable: React.FC<ClaimTableProps> = ({ confirmClaim }) => {
           </TableRow>
         </Thead>
         <Tbody>
-          {tokens.map((token, index) => {
-            return (
-              <TableRow key={index}>
-                <TableCell>
-                  <StyledCheckbox
-                    key={index}
-                    value={token.address}
-                    name="claims"
-                    checked={claims.includes(token.address)}
-                    onChange={handleClaimsChange}
-                  />
-                </TableCell>
-                <TableCell>{token.symbol}</TableCell>
-                <TableCell>{formatNumberToString(token.amount, 0)}</TableCell>
-                <TableCell>
-                  <ClaimButton key={index}>Claim</ClaimButton>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+          {claimList.length > 0 ||
+            claimList.map((token, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell>
+                    <StyledCheckbox
+                      key={index}
+                      value={token.address}
+                      name="claims"
+                      checked={claims.includes(token.address)}
+                      onChange={handleClaimsChange}
+                    />
+                  </TableCell>
+                  <TableCell>{token.symbol}</TableCell>
+                  <TableCell>
+                    {convertNumber({ amount: token.amount })}
+                  </TableCell>
+                  <TableCell>
+                    <ClaimButton
+                      key={index}
+                      onClick={() => handleClaim(token.address)}
+                    >
+                      Claim
+                    </ClaimButton>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </Tbody>
       </Table>
     </Container>

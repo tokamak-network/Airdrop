@@ -1,3 +1,8 @@
+import { BigNumber } from "ethers";
+
 export const formatNumberToString = (number: number, index: number) => {
-  return number.toLocaleString("en-US", { minimumFractionDigits: index });
+  const numAmount = BigNumber.from(number);
+  return Number(numAmount).toLocaleString("en-US", {
+    minimumFractionDigits: index,
+  });
 };
