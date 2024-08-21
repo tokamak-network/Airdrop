@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, InputComp, LabelBarComp, LabelComp } from "./style";
+import { Container, InputComp, LabelBarComp, LabelComp, Error } from "./style";
 
 interface StyledSelectProps {
   label: string;
@@ -7,6 +7,8 @@ interface StyledSelectProps {
   placeholder?: string;
   value?: string;
   readOnly?: boolean;
+  error?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const StyledInput: React.FC<StyledSelectProps> = ({
@@ -15,8 +17,9 @@ export const StyledInput: React.FC<StyledSelectProps> = ({
   placeholder,
   value,
   readOnly,
+  error,
+  onChange,
 }) => {
-  const handleChange = () => {};
   return (
     <Container>
       <LabelBarComp>
@@ -25,7 +28,7 @@ export const StyledInput: React.FC<StyledSelectProps> = ({
       {readOnly ? (
         <InputComp
           type="text"
-          onChange={handleChange}
+          onChange={onChange}
           disabled={!active}
           placeholder={placeholder}
           value={value}
@@ -34,12 +37,13 @@ export const StyledInput: React.FC<StyledSelectProps> = ({
       ) : (
         <InputComp
           type="text"
-          onChange={handleChange}
+          onChange={onChange}
           disabled={!active}
           placeholder={placeholder}
           value={value}
         />
       )}
+      {error && error?.length > 0 ? <Error>{error}</Error> : <></>}
     </Container>
   );
 };

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  gap: 1px;
   @media only screen and (max-width: 1100px) {
     display: grid;
     gap: 1px;
@@ -16,6 +15,7 @@ export const FirstCard = styled.div`
   width: 275px;
   height: 50px;
   padding: 20px;
+  border-right: 1px solid #f4f6f8;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   background-color: #fff;
@@ -36,6 +36,7 @@ export const Card = styled.div`
   width: 275px;
   height: 50px;
   padding: 20px;
+  border-right: 1px solid #f4f6f8;
   background-color: #fff;
   @media only screen and (max-width: 1100px) {
     height: 60px;

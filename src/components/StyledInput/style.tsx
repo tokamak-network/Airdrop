@@ -48,3 +48,9 @@ export const InputComp = styled.input`
     color: #86929d;
   }
 `;
+
+export const Error = styled.a`
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
+  color: red;
+`;
