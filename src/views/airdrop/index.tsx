@@ -4,8 +4,6 @@ import {
   PortfolioBar,
   ToggleButton,
   ClaimTable,
-  ClaimModal,
-  DistributeModal,
   DistributeTable,
 } from "components";
 import { DistributedTokens } from "components/DistributedTokens";
@@ -20,13 +18,11 @@ import {
 import {
   DEPLOYED_ADDRESS,
   LockTOS_ADDRESS,
-  SeigManager_ADDRESS,
   StakingV2Proxy_ADDRESS,
 } from "consts";
 import * as SeigManagerABI from "services/abis/SeigManager.json";
 import * as StakingV2ProxyABI from "services/abis/StakingV2Proxy.json";
 import * as LockTOSABI from "services/abis/LockTOS.json";
-import * as TONABI from "services/abis/TestERC20.json";
 
 const { TON_ADDRESS } = DEPLOYED_ADDRESS;
 

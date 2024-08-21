@@ -27,7 +27,7 @@ import { fetchAirdropPayload, convertNumber } from "utils";
 import { StyledCheckbox } from "components/StyledCheckbox";
 import { StyledSelect } from "components/StyledSelect";
 import { trackDeviceWidth } from "utils/getWidth";
-import { DEPLOYED_ADDRESS, TokenDividendPoolProxy_ADDRESS } from "consts";
+import { TokenDividendPoolProxy_ADDRESS } from "consts";
 import { getEthereumContract } from "hooks/useWallet";
 import * as TokenDividendPoolABI from "services/abis/TokenDividendProxyPool.json";
 import * as ERC20 from "services/abis/ERC20.json";
@@ -45,14 +45,11 @@ export const ClaimTable: React.FC = () => {
   const [claims, setClaims] = useState<string[]>([]);
   const [checkSelected, setCheckCSelected] = useState<boolean>(false);
   const [deviceWidth, setDeviceWidth] = useState<number>(window.innerWidth);
-  const [loadingData, setLoadingData] = useState<boolean>(true);
-  const [airdropData, setAirdropData] = useState<any[]>([]);
   const [tonStakerAirdropTokens, setTonStakerAirdropTokens] = useState<any[]>(
     []
   );
   const [daoAirdropTokens, setDaoAirdropTokens] = useState<any[]>([]);
   const [genesisAirdropBalance, setGenesisAirdropBalance] = useState({});
-  const [sTosHolderTokens, setSTOSHolderTokens] = useState<any[]>([]);
 
   useEffect(() => {
     const getClaimableAirdropTonAmounts = async () => {
@@ -145,12 +142,10 @@ export const ClaimTable: React.FC = () => {
         })
       );
 
-      let filteredAirdropData = claimableArr.filter(
-        (data) => data.amount !== "0.00"
-      );
-      const sortedArr = filteredAirdropData.sort((a, b) => a.id - b.id);
-      setLoadingData(false);
-      setAirdropData(sortedArr);
+      // let filteredAirdropData = claimableArr.filter(
+      //   (data) => data.amount !== "0.00"
+      // );
+      // const sortedArr = filteredAirdropData.sort((a, b) => a.id - b.id);
     };
     if (account) getClaimableAirdropTonAmounts();
   }, [account, source]);
